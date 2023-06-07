@@ -13,10 +13,10 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TaggedAddress {
 
-    @JsonProperty("address")
+    @JsonProperty("Address")
     private String address;
 
-    @JsonProperty("port")
+    @JsonProperty("Port")
     private int port;
 
 }

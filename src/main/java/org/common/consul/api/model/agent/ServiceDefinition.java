@@ -21,6 +21,9 @@ import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ServiceDefinition {
 
+    @JsonProperty("Kind")
+    private String kind;
+
     @JsonProperty("ID")
     private String id;
 
