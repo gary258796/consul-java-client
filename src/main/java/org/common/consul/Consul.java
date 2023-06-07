@@ -3,8 +3,8 @@ package org.common.consul;
 import feign.Feign;
 import feign.Logger;
 import feign.codec.ErrorDecoder;
-import feign.gson.GsonDecoder;
-import feign.gson.GsonEncoder;
+import feign.jackson.JacksonDecoder;
+import feign.jackson.JacksonEncoder;
 import lombok.Getter;
 import org.common.consul.api.agent.AgentServices;
 
@@ -18,8 +18,8 @@ public class Consul {
 
     public Consul() {
         Feign.Builder feignBuilder = new Feign.Builder()
-                .encoder(new GsonEncoder())
-                .decoder(new GsonDecoder())
+                .encoder(new JacksonEncoder())
+                .decoder(new JacksonDecoder())
                 .errorDecoder(new ErrorDecoder.Default()) // maybe enable client to customize it in the future
                 .logLevel(Logger.Level.FULL);
 
