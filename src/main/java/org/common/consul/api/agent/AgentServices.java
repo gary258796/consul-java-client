@@ -1,15 +1,13 @@
 package org.common.consul.api.agent;
 
-import feign.Feign;
-import feign.Headers;
-import feign.Param;
-import feign.RequestLine;
+import feign.*;
 import org.apache.commons.lang3.StringUtils;
 import org.common.consul.api.BaseApi;
 import org.common.consul.api.model.agent.Service;
 import org.common.consul.api.model.agent.ServiceDefinition;
 import org.common.consul.api.model.agent.ServiceRegistrationInfo;
 import org.common.consul.api.model.agent.ServiceState;
+import org.common.consul.api.model.query.QueryParams;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -18,11 +16,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Client of /agent/service endpoints
  * @author liaoyushao
  */
 public class AgentServices extends BaseApi {
 
-    /** Api interface for /agent/service endpoints */
+    /** Api interface */
     private final Api api;
 
     public AgentServices(Feign.Builder feignBuilder) {
@@ -39,11 +38,18 @@ public class AgentServices extends BaseApi {
     }
 
     /**
-     * All services that are registered with the local agent
+     * All services that are registered with the local agent.
+     * You can know a service id is registered in consul by checking if the id contains in the result of this Api
+     * @param queryParams : Filter of result services
      * @return list of registered services
      */
-    public Map<String, Service> getServices() {
-        return this.api.getServices();
+    public Map<String, Service> getServices(QueryParams queryParams) {
+
+        if (queryParams == null) {
+            queryParams = new QueryParams(); // Init a new empty QueryParams
+        }
+
+        return this.api.getServices(queryParams);
     }
 
     /**
@@ -106,7 +112,7 @@ public class AgentServices extends BaseApi {
     private interface Api {
 
         @RequestLine("GET /agent/services")
-        Map<String, Service> getServices();
+        Map<String, Service> getServices(@QueryMap QueryParams queryParams);
 
         @RequestLine("GET /agent/service/{serviceId}")
         ServiceDefinition getService(@Param("serviceId") String serviceId);
