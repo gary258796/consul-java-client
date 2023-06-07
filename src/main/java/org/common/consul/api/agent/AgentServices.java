@@ -8,10 +8,9 @@ import org.common.consul.api.model.agent.ServiceDefinition;
 import org.common.consul.api.model.agent.ServiceRegistrationInfo;
 import org.common.consul.api.model.agent.ServiceState;
 import org.common.consul.api.model.query.QueryParams;
+import org.common.consul.util.UrlEncodeUtils;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -98,13 +97,7 @@ public class AgentServices extends BaseApi {
      * @param reason : Reason to enable or disable maintenance mode
      */
     public void configMaintenance(String serviceId, boolean enable, String reason) throws UnsupportedEncodingException {
-
-        if (StringUtils.isEmpty(reason)) {
-            this.api.configMaintenance(serviceId, enable, "");
-        }
-
-        String encodedReason = URLEncoder.encode(reason, StandardCharsets.UTF_8.toString());
-        this.api.configMaintenance(serviceId, enable, encodedReason);
+        this.api.configMaintenance(serviceId, enable, StringUtils.isEmpty(reason) ? "" : UrlEncodeUtils.encode(reason));
     }
 
     /** Api interface for /agent/service endpoints */
