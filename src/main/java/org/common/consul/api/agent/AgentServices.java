@@ -38,16 +38,23 @@ public class AgentServices extends BaseApi {
 
     /**
      * All services that are registered with the local agent.
-     * You can know a service id is registered in consul by checking if the id contains in the result of this Api
-     * @param queryParams : Filter of result services
+     * You can know a service id is registered in consul by checking if the id contains in the result
      * @return list of registered services
      */
-    public Map<String, Service> getServices(QueryParams queryParams) {
+    public Map<String, Service> getServices() {
+        QueryParams queryParams = new QueryParams();
+        return this.api.getServices(queryParams);
+    }
 
-        if (queryParams == null) {
-            queryParams = new QueryParams(); // Init a new empty QueryParams
-        }
-
+    /**
+     * All services that are registered with the local agent.
+     * You can know a service id is registered in consul by checking if the id contains in the result
+     * @param filter : Filter of result services
+     * @return list of registered services
+     */
+    public Map<String, Service> getServices(String filter) {
+        QueryParams queryParams = new QueryParams();
+        queryParams.setFilter(filter);
         return this.api.getServices(queryParams);
     }
 
@@ -97,7 +104,12 @@ public class AgentServices extends BaseApi {
      * @param reason : Reason to enable or disable maintenance mode
      */
     public void configMaintenance(String serviceId, boolean enable, String reason) throws UnsupportedEncodingException {
-        this.api.configMaintenance(serviceId, enable, StringUtils.isEmpty(reason) ? "" : UrlEncodeUtils.encode(reason));
+
+        QueryParams queryParams = new QueryParams();
+        queryParams.setEnable(enable);
+        queryParams.setReason(StringUtils.isEmpty(reason) ? "" : UrlEncodeUtils.encode(reason));
+
+        this.api.configMaintenance(serviceId, queryParams);
     }
 
     /** Api interface for /agent/service endpoints */
@@ -122,8 +134,8 @@ public class AgentServices extends BaseApi {
         @RequestLine("PUT /agent/service/deregister/{serviceId}")
         void deRegister(@Param("serviceId") String serviceId);
 
-        @RequestLine("PUT /agent/service/maintenance/{serviceId}?enable={enable}&reason={reason}")
-        void configMaintenance(@Param("serviceId") String serviceId, @Param("enable") boolean enable, @Param("reason") String reason);
+        @RequestLine("PUT /agent/service/maintenance/{serviceId}")
+        void configMaintenance(@Param("serviceId") String serviceId, @QueryMap QueryParams queryParams);
 
     }
 }
