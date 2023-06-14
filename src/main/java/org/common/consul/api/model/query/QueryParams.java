@@ -1,8 +1,7 @@
 package org.common.consul.api.model.query;
 
 import feign.Param;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * Query params of consul api
@@ -10,6 +9,9 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class QueryParams {
 
     /** If api support filter, set if need filter api result */
@@ -21,5 +23,8 @@ public class QueryParams {
 
     @Param("reason")
     private String reason;
+
+    @Param("expanded")
+    private boolean expanded;
 
 }

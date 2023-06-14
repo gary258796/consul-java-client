@@ -42,8 +42,7 @@ public class AgentServices extends BaseApi {
      * @return list of registered services
      */
     public Map<String, Service> getServices() {
-        QueryParams queryParams = new QueryParams();
-        return this.api.getServices(queryParams);
+        return this.api.getServices();
     }
 
     /**
@@ -115,6 +114,9 @@ public class AgentServices extends BaseApi {
     /** Api interface for /agent/service endpoints */
     @Headers("Accept: application/json")
     private interface Api {
+
+        @RequestLine("GET /agent/services")
+        Map<String, Service> getServices();
 
         @RequestLine("GET /agent/services")
         Map<String, Service> getServices(@QueryMap QueryParams queryParams);

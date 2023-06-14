@@ -27,8 +27,7 @@ public class AgentChecks extends BaseApi {
      * @return all checks
      */
     public Map<String, HealthCheck> getHealthChecks() {
-        QueryParams queryParams = new QueryParams();
-        return this.api.getHealthChecks(queryParams);
+        return this.api.getHealthChecks();
     }
 
     /**
@@ -38,6 +37,7 @@ public class AgentChecks extends BaseApi {
      */
     public Map<String, HealthCheck> getHealthChecks(String filter) {
         QueryParams queryParams = new QueryParams();
+        queryParams.setFilter(filter);
         return this.api.getHealthChecks(queryParams);
     }
 
@@ -69,6 +69,9 @@ public class AgentChecks extends BaseApi {
     /** Api interface for /agent/check endpoints */
     @Headers("Accept: application/json")
     private interface Api {
+
+        @RequestLine("GET /agent/checks")
+        Map<String, HealthCheck> getHealthChecks();
 
         @RequestLine("GET /agent/checks")
         Map<String, HealthCheck> getHealthChecks(@QueryMap QueryParams queryParams);
