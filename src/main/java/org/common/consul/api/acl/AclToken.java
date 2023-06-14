@@ -52,6 +52,15 @@ public class AclToken extends BaseApi {
         return this.api.getSelfToken();
     }
 
+    /**
+     * update token with accessorId
+     * @param accessorId : The accessorId
+     * @param token : The token
+     */
+    public TokenResponse updateToken(String accessorId, Token token) {
+        return this.api.updateToken(accessorId, token);
+    }
+
     /** Api interface for /acl/token endpoints */
     @Headers("Accept: application/json")
     private interface Api {
@@ -67,5 +76,9 @@ public class AclToken extends BaseApi {
 
         @RequestLine("GET /acl/token/self")
         TokenResponse getSelfToken();
+
+        @RequestLine("PUT /acl/token/{accessorId}")
+        TokenResponse updateToken(@Param("accessorId") String accessorId, Token token);
+
     }
 }

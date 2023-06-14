@@ -43,6 +43,9 @@ public class Token {
     @JsonProperty("Local")
     private boolean local;
 
+    @JsonProperty("AuthMethod")
+    private String authMethod;
+
     @JsonProperty("ExpirationTime")
     private String expirationTime;
 
