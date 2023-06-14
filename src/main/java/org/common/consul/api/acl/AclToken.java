@@ -30,8 +30,8 @@ public class AclToken extends BaseApi {
      * Reads an ACL token with the given Accessor ID.
      * @param accessorId : The accessorId
      */
-    public TokenResponse get(String accessorId) {
-        return this.api.get(accessorId);
+    public TokenResponse getTokenOfAccessorId(String accessorId) {
+        return this.api.getTokenOfAccessorId(accessorId);
     }
 
     /**
@@ -39,10 +39,17 @@ public class AclToken extends BaseApi {
      * @param accessorId : The accessorId
      * @param expanded : If this field is set, the contents of all policies and roles affecting the token will also be returned.
      */
-    public TokenResponse get(String accessorId, boolean expanded) {
+    public TokenResponse getTokenOfAccessorId(String accessorId, boolean expanded) {
         QueryParams queryParams = new QueryParams();
         queryParams.setExpanded(expanded);
-        return this.api.get(accessorId, queryParams);
+        return this.api.getTokenOfAccessorId(accessorId, queryParams);
+    }
+
+    /**
+     * Returns the ACL token details that matches the secret ID specified with the X-Consul-Token header or the token query parameter.
+     */
+    public TokenResponse getSelfToken() {
+        return this.api.getSelfToken();
     }
 
     /** Api interface for /acl/token endpoints */
@@ -53,10 +60,12 @@ public class AclToken extends BaseApi {
         TokenResponse create(Token token);
 
         @RequestLine("GET /acl/token/{accessorId}")
-        TokenResponse get(@Param("accessorId") String accessorId);
+        TokenResponse getTokenOfAccessorId(@Param("accessorId") String accessorId);
 
         @RequestLine("GET /acl/token/{accessorId}")
-        TokenResponse get(@Param("accessorId") String accessorId, @QueryMap QueryParams queryParams);
+        TokenResponse getTokenOfAccessorId(@Param("accessorId") String accessorId, @QueryMap QueryParams queryParams);
 
+        @RequestLine("GET /acl/token/self")
+        TokenResponse getSelfToken();
     }
 }
