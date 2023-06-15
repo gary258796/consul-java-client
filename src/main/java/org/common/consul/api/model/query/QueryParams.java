@@ -19,12 +19,20 @@ public class QueryParams {
     private String filter;
 
     @Param("enable")
-    private boolean enable;
+    private Boolean enable;
 
     @Param("reason")
     private String reason;
 
     @Param("expanded")
-    private boolean expanded;
+    private Boolean expanded;
 
+    @Param("policy")
+    private String policy;
+
+    @Param("role")
+    private String role;
+
+    @Param("authmethod")
+    private String authMethod;
 }

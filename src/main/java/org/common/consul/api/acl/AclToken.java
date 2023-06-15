@@ -6,6 +6,8 @@ import org.common.consul.api.model.acl.Token;
 import org.common.consul.api.model.acl.TokenResponse;
 import org.common.consul.api.model.query.QueryParams;
 
+import java.util.List;
+
 /**
  * Client of /acl/token endpoints
  * @author liaoyushao
@@ -43,6 +45,15 @@ public class AclToken extends BaseApi {
         QueryParams queryParams = new QueryParams();
         queryParams.setExpanded(expanded);
         return this.api.getTokenOfAccessorId(accessorId, queryParams);
+    }
+
+    public List<TokenResponse> getTokens() {
+        QueryParams queryParams = new QueryParams();
+        return this.api.getTokens(queryParams);
+    }
+
+    public List<TokenResponse> getTokens(QueryParams queryParams) {
+        return this.api.getTokens(queryParams);
     }
 
     /**
@@ -98,6 +109,9 @@ public class AclToken extends BaseApi {
 
         @RequestLine("DELETE /acl/token/{accessorId}")
         boolean deleteToken(@Param("accessorId") String accessorId);
+
+        @RequestLine("GET /acl/tokens")
+        List<TokenResponse> getTokens(@QueryMap QueryParams queryParams);
 
     }
 }
