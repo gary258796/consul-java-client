@@ -69,6 +69,10 @@ public class AclToken extends BaseApi {
         return this.api.cloneToken(accessorId, description);
     }
 
+    public boolean deleteToken(String accessorId) {
+        return this.api.deleteToken(accessorId);
+    }
+
     /** Api interface for /acl/token endpoints */
     @Headers("Accept: application/json")
     private interface Api {
@@ -91,6 +95,9 @@ public class AclToken extends BaseApi {
         @RequestLine("PUT /acl/token/{accessorId}/clone")
         @Body("%7B\"Description\": \"{description}\"%7D")
         TokenResponse cloneToken(@Param("accessorId") String accessorId, @Param("description") String description);
+
+        @RequestLine("DELETE /acl/token/{accessorId}")
+        boolean deleteToken(@Param("accessorId") String accessorId);
 
     }
 }
