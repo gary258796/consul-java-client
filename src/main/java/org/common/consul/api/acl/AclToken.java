@@ -61,6 +61,14 @@ public class AclToken extends BaseApi {
         return this.api.updateToken(accessorId, token);
     }
 
+    public TokenResponse cloneToken(String accessorId) {
+        return this.api.cloneToken(accessorId, "");
+    }
+
+    public TokenResponse cloneToken(String accessorId, String description) {
+        return this.api.cloneToken(accessorId, description);
+    }
+
     /** Api interface for /acl/token endpoints */
     @Headers("Accept: application/json")
     private interface Api {
@@ -79,6 +87,10 @@ public class AclToken extends BaseApi {
 
         @RequestLine("PUT /acl/token/{accessorId}")
         TokenResponse updateToken(@Param("accessorId") String accessorId, Token token);
+
+        @RequestLine("PUT /acl/token/{accessorId}/clone")
+        @Body("%7B\"Description\": \"{description}\"%7D")
+        TokenResponse cloneToken(@Param("accessorId") String accessorId, @Param("description") String description);
 
     }
 }
